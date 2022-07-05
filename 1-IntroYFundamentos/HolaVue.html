@@ -9,18 +9,21 @@
 <body>
 
     <div id="app">
-        {{text}}
+        <div v-once v-text="text"></div>
+        <div v-html="page"></div>
     </div>
     
     <script src="https://unpkg.com/vue@3"></script>
     <script>
-        Vue.createApp({
+        const vm = Vue.createApp({
             data() {
                 return {
-                    text: "Hola Vue!"
+                    text: "Hola Vue!",
+                    page: "<p>Soy un Html!</p>"
                 }
             }
         }).mount("#app");
+        console.log(vm);
     </script>
 </body>
 </html>
