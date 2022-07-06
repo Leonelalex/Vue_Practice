@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body{
+            height: 100vh;
+            margin: 0;
+            font-family: Arial;
+        }
+
+        #app, .puerta{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+
+        button{
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 70px;
+            height: 40px;
+            font-size: medium;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="puerta" :style="lstyle">
+            <h2>{{state}}</h2>
+            <div v-if="!logued">
+                <input type="text" :value="user" @change="login">
+            </div>
+            <p v-if="logued">{{greed}}</p>
+            <button :style="bstyle" v-on:click="buttonHandler">{{action}}</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return {
+                    text: "Hola Vue!",
+                    state: "Sesion out",
+                    action: "LogIn",
+                    lstyle: {
+                        backgroundColor: "rgb(206, 19, 81)"
+                    },
+                    bstyle: {
+                        backgroundColor: "rgb(25, 230, 127)"
+                    },
+                    user: ""
+                }
+            },
+            watch: {
+                text(value, old){
+                    console.log("old ",old);
+                    console.log("Watching!");
+                },
+                state(value){
+                    if(this.action == 'LogIn'){
+                        this.action = "LogOut";
+                        this.lstyle.backgroundColor = "rgb(25, 230, 127)";
+                        this.bstyle.backgroundColor = "rgb(206, 19, 81)";
+                    }else{
+                        this.action = "LogIn";
+                        this.lstyle.backgroundColor = "rgb(206, 19, 81)";
+                        this.bstyle.backgroundColor = "rgb(25, 230, 127)";
+                    }
+                }
+            },
+            methods: {
+                buttonHandler(){
+                    if(this.state == "Sesion In"){
+                        this.state = "Sesion Out";
+                        this.user = "";
+                    }
+                    else
+                        this.state = "Sesion In";
+                },
+                login(e){
+                    this.user = e.target.value;
+                }
+            },
+            computed: {
+                logued(){
+                    return this.state == "Sesion In" ? true : false;
+                },
+                greed(){
+                    return "Hola " + this.user;
+                }
+            }
+        }).mount("#app");
+    </script>
+</body>
+</html>
